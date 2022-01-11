@@ -7,6 +7,8 @@ import DetailsScreen from './screens/DetailsScreen';
 import DoingScreen from './screens/DoingScreen';
 import CompletedScreen from './screens/CompletedScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/FontAwesome';
+Icon.loadFont();
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const DoingStack = createNativeStackNavigator();
@@ -59,7 +61,22 @@ function CompletedStackScreen() {
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          headerShown: false,
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+
+            if (route.name === 'Home Screen') {
+              iconName = focused ? 'home' : 'home';
+            } else if (route.name === 'Doing Screen') {
+              iconName = focused ? 'list' : 'list';
+            } else if (route.name === 'Completed Screen') {
+              iconName = focused ? 'check' : 'check';
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}>
         <Tab.Screen name="Home Screen" component={HomeStackScreen} />
         <Tab.Screen name="Doing Screen" component={DoingStackScreen} />
         <Tab.Screen name="Completed Screen" component={CompletedStackScreen} />
