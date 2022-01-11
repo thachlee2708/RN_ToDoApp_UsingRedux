@@ -21,11 +21,11 @@ export default DetailsScreen = ({navigation, route}) => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('');
   const {key} = route.params;
-  const {screen} = route.params;
+  const {previousScreen} = route.params;
   const screenNavigate = previousScreen => {
     if (previousScreen === 'Doing') return 'Doing Screen';
     if (previousScreen === 'Completed') return 'Completed Screen';
-    return 'Home Screen';
+    if (previousScreen === 'Home') return 'Home Screen';
   };
   const getData = async () => {
     try {
@@ -50,12 +50,12 @@ export default DetailsScreen = ({navigation, route}) => {
   };
   const saveData = () => {
     AsyncStorage.setItem(key, JSON.stringify(obj));
-    navigation.navigate(screenNavigate(screen));
+    navigation.navigate(screenNavigate(previousScreen));
   };
   const removeItem = async () => {
     try {
       await AsyncStorage.removeItem(key);
-      navigation.navigate(screenNavigate(screen));
+      navigation.navigate(screenNavigate(previousScreen));
       return true;
     } catch (exception) {
       return false;

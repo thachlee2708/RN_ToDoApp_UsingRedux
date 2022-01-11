@@ -21,13 +21,13 @@ export default HomeScreen = ({navigation}) => {
   const [data, setData] = useState(new Array());
   const addItem = () => {
     console.log(data);
-    navigation.navigate('Input Screen', {screen: 'Home'});
+    navigation.navigate('Input Screen', {previousScreen: 'Home'});
   };
   const getData = async () => {
     setData(new Array());
     try {
       const keys = await AsyncStorage.getAllKeys();
-      for (x in keys) {
+      for (let x in keys) {
         objItem = await AsyncStorage.getItem(keys[x]);
         objItemConverted = JSON.parse(objItem);
         objItemConverted.key = keys[x];
@@ -46,7 +46,7 @@ export default HomeScreen = ({navigation}) => {
     getData();
   }, [isFocused]);
   const navigateDetailScreen = id => {
-    navigation.navigate('Details Screen', {key: id, screen: 'Home'});
+    navigation.navigate('Details Screen', {key: id, previousScreen: 'Home'});
   };
   const renderItem = ({item}) => {
     return (

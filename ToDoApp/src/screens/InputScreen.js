@@ -13,7 +13,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DatePicker from 'react-native-date-picker';
 export default InputScreen = ({navigation, route}) => {
-  const {screen} = route.params;
+  const {previousScreen} = route.params;
   const screenNavigate = previousScreen => {
     if (previousScreen === 'Doing') return 'Doing Screen';
     if (previousScreen === 'Completed') return 'Completed Screen';
@@ -33,7 +33,7 @@ export default InputScreen = ({navigation, route}) => {
       }
       console.log(sumKey);
       AsyncStorage.setItem(sumKey + '', JSON.stringify(obj));
-      navigation.navigate(screenNavigate(screen));
+      navigation.navigate(screenNavigate(previousScreen));
     } catch (error) {
       console.error(error);
     }
@@ -47,7 +47,7 @@ export default InputScreen = ({navigation, route}) => {
     name: name,
     detail: detail,
     time: time,
-    status: pickStatus(screen),
+    status: pickStatus(previousScreen),
   };
   return (
     <SafeAreaView style={styles.container}>

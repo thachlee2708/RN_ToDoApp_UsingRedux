@@ -21,11 +21,11 @@ export default DoingScreen = ({navigation}) => {
   const [data2, setData2] = useState([]);
   const addItem = () => {
     console.log(data2);
-    navigation.navigate('Input Screen', {screen: 'Doing'});
+    navigation.navigate('Input Screen', {previousScreen: 'Doing'});
   };
   const getData = async () => {
+    setData2(new Array());
     try {
-      data2.length = 0;
       const keys = await AsyncStorage.getAllKeys();
       for (let x in keys) {
         objItem = await AsyncStorage.getItem(keys[x]);
@@ -44,7 +44,7 @@ export default DoingScreen = ({navigation}) => {
     getData();
   }, [isFocused]);
   const navigateDetailScreen = id => {
-    navigation.navigate('Details Screen', {key: id, screen: 'Doing'});
+    navigation.navigate('Details Screen', {key: id, previousScreen: 'Doing'});
   };
   const renderItem = ({item}) => {
     return (
