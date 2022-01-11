@@ -17,18 +17,15 @@ const Item = ({onPress, text, itemAdd}) => {
     </TouchableOpacity>
   );
 };
-export default HomeScreen = ({navigation, route}) => {
-  const [data, setData] = useState([]);
+export default HomeScreen = ({navigation}) => {
+  const [data, setData] = useState(new Array());
   const addItem = () => {
     console.log(data);
-    navigation.navigate('Input Screen');
-  };
-  const saveData = obj => {
-    AsyncStorage.setItem('user', JSON.stringify(obj));
+    navigation.navigate('Input Screen', {screen: 'Home'});
   };
   const getData = async () => {
+    setData(new Array());
     try {
-      data.length = 0;
       const keys = await AsyncStorage.getAllKeys();
       for (x in keys) {
         objItem = await AsyncStorage.getItem(keys[x]);
@@ -49,7 +46,7 @@ export default HomeScreen = ({navigation, route}) => {
     getData();
   }, [isFocused]);
   const navigateDetailScreen = id => {
-    navigation.navigate('Details Screen', {key: id});
+    navigation.navigate('Details Screen', {key: id, screen: 'Home'});
   };
   const renderItem = ({item}) => {
     return (

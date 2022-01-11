@@ -21,6 +21,12 @@ export default DetailsScreen = ({navigation, route}) => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('');
   const {key} = route.params;
+  const {screen} = route.params;
+  const screenNavigate = previousScreen => {
+    if (previousScreen === 'Doing') return 'Doing Screen';
+    if (previousScreen === 'Completed') return 'Completed Screen';
+    return 'Home Screen';
+  };
   const getData = async () => {
     try {
       const objItem = await AsyncStorage.getItem(key);
@@ -44,12 +50,12 @@ export default DetailsScreen = ({navigation, route}) => {
   };
   const saveData = () => {
     AsyncStorage.setItem(key, JSON.stringify(obj));
-    navigation.navigate('Home Screen');
+    navigation.navigate(screenNavigate(screen));
   };
   const removeItem = async () => {
     try {
       await AsyncStorage.removeItem(key);
-      navigation.navigate('Home Screen');
+      navigation.navigate(screenNavigate(screen));
       return true;
     } catch (exception) {
       return false;
@@ -128,7 +134,8 @@ const styles = StyleSheet.create({
   },
   wrapButton: {
     borderRadius: 5,
-    margin: 50,
+    marginTop: 30,
+    marginHorizontal: 50,
     backgroundColor: '#EDF005',
     alignItems: 'center',
   },

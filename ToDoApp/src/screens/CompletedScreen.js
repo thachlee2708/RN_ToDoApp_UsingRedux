@@ -17,23 +17,23 @@ const Item = ({onPress, text, itemAdd}) => {
     </TouchableOpacity>
   );
 };
-export default CompletedScreen = ({navigation, route}) => {
-  const [data, setData] = useState([]);
+export default DoingScreen = ({navigation}) => {
+  const [data2, setData2] = useState([]);
   const addItem = () => {
-    console.log(data);
-    navigation.navigate('Input Screen');
+    console.log(data2);
+    navigation.navigate('Input Screen', {screen: 'Completed'});
   };
   const getData = async () => {
     try {
-      data.length = 0;
+      data2.length = 0;
       const keys = await AsyncStorage.getAllKeys();
-      for (x in keys) {
+      for (let x in keys) {
         objItem = await AsyncStorage.getItem(keys[x]);
         objItemConverted = JSON.parse(objItem);
         objItemConverted.key = keys[x];
         //Add item to array setState Hook
         if (objItemConverted.status === 'Completed')
-          setData(prevData => [...prevData, objItemConverted]);
+          setData2(prevData => [...prevData, objItemConverted]);
       }
     } catch (error) {
       console.error(error);
@@ -44,7 +44,7 @@ export default CompletedScreen = ({navigation, route}) => {
     getData();
   }, [isFocused]);
   const navigateDetailScreen = id => {
-    navigation.navigate('Details Screen', {key: id});
+    navigation.navigate('Details Screen', {key: id, screen: 'Completed'});
   };
   const renderItem = ({item}) => {
     return (
@@ -52,7 +52,7 @@ export default CompletedScreen = ({navigation, route}) => {
     );
   };
   // Sort data
-  data.sort(function (a, b) {
+  data2.sort(function (a, b) {
     return parseInt(a.key) > parseInt(b.key);
   });
 
@@ -60,8 +60,8 @@ export default CompletedScreen = ({navigation, route}) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.list}
-        data={data}
-        extraData={data}
+        data={data2}
+        extraData={data2}
         renderItem={renderItem}
         ListFooterComponent={
           <Item itemAdd text="+ New" onPress={() => addItem()}></Item>
