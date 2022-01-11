@@ -17,7 +17,7 @@ const Item = ({onPress, text, itemAdd}) => {
     </TouchableOpacity>
   );
 };
-export default DoingScreen = ({navigation}) => {
+export default CompletedScreen = ({navigation}) => {
   const [data2, setData2] = useState([]);
   const addItem = () => {
     console.log(data2);
