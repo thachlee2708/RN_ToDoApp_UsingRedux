@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect, useFocusEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -20,7 +20,6 @@ const Item = ({onPress, text, itemAdd}) => {
 export default HomeScreen = ({navigation}) => {
   const [data, setData] = useState(new Array());
   const addItem = () => {
-    console.log(data);
     navigation.navigate('Input Screen', {previousScreen: 'Home'});
   };
   const getData = async () => {
@@ -31,12 +30,9 @@ export default HomeScreen = ({navigation}) => {
         objItem = await AsyncStorage.getItem(keys[x]);
         objItemConverted = JSON.parse(objItem);
         objItemConverted.key = keys[x];
-        //data.push(JSON.parse(objItem));
-        //setData(data);
         //Add item to array setState Hook
         setData(prevData => [...prevData, objItemConverted]);
       }
-      //console.log(data);
     } catch (error) {
       console.error(error);
     }

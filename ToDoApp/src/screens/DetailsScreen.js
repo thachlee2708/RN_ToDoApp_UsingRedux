@@ -1,12 +1,9 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
   AsyncStorage,
-  FlatList,
   TextInput,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';

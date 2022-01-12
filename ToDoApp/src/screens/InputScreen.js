@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -31,7 +31,6 @@ export default InputScreen = ({navigation, route}) => {
       for (x in keys) {
         sumKey = sumKey + parseInt(keys[x]);
       }
-      console.log(sumKey);
       AsyncStorage.setItem(sumKey + '', JSON.stringify(obj));
       navigation.navigate(screenNavigate(previousScreen));
     } catch (error) {
