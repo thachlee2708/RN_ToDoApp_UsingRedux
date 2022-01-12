@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   AsyncStorage,
   TextInput,
+  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -48,6 +49,23 @@ export default DetailsScreen = ({navigation, route}) => {
   const saveData = () => {
     AsyncStorage.setItem(key, JSON.stringify(obj));
     navigation.navigate(screenNavigate(previousScreen));
+  };
+  const twoOptionAlertHandler = () => {
+    //function to make two option alert
+    Alert.alert(
+      //title
+      'Xác nhận xoá',
+      //body
+      'Bạn có muốn xoá? ?',
+      [
+        {text: 'Yes', onPress: () => removeItem()},
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
   };
   const removeItem = async () => {
     try {
@@ -108,7 +126,9 @@ export default DetailsScreen = ({navigation, route}) => {
       <TouchableOpacity style={styles.wrapButton} onPress={() => saveData()}>
         <Text style={styles.text}>Lưu</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.wrapButton} onPress={() => removeItem()}>
+      <TouchableOpacity
+        style={styles.wrapButton}
+        onPress={() => twoOptionAlertHandler()}>
         <Text style={styles.text}>Xoá</Text>
       </TouchableOpacity>
     </SafeAreaView>
