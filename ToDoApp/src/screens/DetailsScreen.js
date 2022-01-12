@@ -51,12 +51,11 @@ export default DetailsScreen = ({navigation, route}) => {
     navigation.navigate(screenNavigate(previousScreen));
   };
   const twoOptionAlertHandler = () => {
-    //function to make two option alert
     Alert.alert(
       //title
       'Xác nhận xoá',
       //body
-      'Bạn có muốn xoá? ?',
+      'Bạn có muốn xoá ?',
       [
         {text: 'Yes', onPress: () => removeItem()},
         {
