@@ -23,7 +23,7 @@ export default DoingScreen = ({navigation}) => {
     navigation.navigate('Input Screen', {previousScreen: 'Doing'});
   };
   const getData = async () => {
-    setData(new Array());
+    let data1 = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
       for (let x in keys) {
@@ -31,9 +31,9 @@ export default DoingScreen = ({navigation}) => {
         objItemConverted = JSON.parse(objItem);
         objItemConverted.key = keys[x];
         //Add item to array setState Hook
-        if (objItemConverted.status === 'Doing')
-          setData(prevData => [...prevData, objItemConverted]);
+        if (objItemConverted.status === 'Doing') data1.push(objItemConverted);
       }
+      setData(data1);
     } catch (error) {
       console.error(error);
     }
@@ -62,9 +62,6 @@ export default DoingScreen = ({navigation}) => {
         data={data}
         extraData={data}
         renderItem={renderItem}
-        ListFooterComponent={
-          <Item itemAdd text="+ New" onPress={() => addItem()}></Item>
-        }
       />
     </SafeAreaView>
   );

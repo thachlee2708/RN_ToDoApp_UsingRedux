@@ -13,6 +13,8 @@ target 'ToDoApp' do
   )
 
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'ToDoAppTests' do
     inherit! :complete
     # Pods for testing

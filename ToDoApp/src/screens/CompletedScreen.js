@@ -23,7 +23,7 @@ export default CompletedScreen = ({navigation}) => {
     navigation.navigate('Input Screen', {previousScreen: 'Completed'});
   };
   const getData = async () => {
-    setData(new Array());
+    let data1 = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
       for (let x in keys) {
@@ -32,8 +32,9 @@ export default CompletedScreen = ({navigation}) => {
         objItemConverted.key = keys[x];
         //Add item to array setState Hook
         if (objItemConverted.status === 'Completed')
-          setData(prevData => [...prevData, objItemConverted]);
+          data1.push(objItemConverted);
       }
+      setData(data1);
     } catch (error) {
       console.error(error);
     }
@@ -65,9 +66,6 @@ export default CompletedScreen = ({navigation}) => {
         data={data}
         extraData={data}
         renderItem={renderItem}
-        ListFooterComponent={
-          <Item itemAdd text="+ New" onPress={() => addItem()}></Item>
-        }
       />
     </SafeAreaView>
   );

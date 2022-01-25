@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   AsyncStorage,
+  Platform,
   TextInput,
   Alert,
 } from 'react-native';
@@ -47,8 +48,24 @@ export default DetailsScreen = ({navigation, route}) => {
     status: status,
   };
   const saveData = () => {
+    if (obj.name === '') return optionAlertHandler();
     AsyncStorage.setItem(key, JSON.stringify(obj));
     navigation.navigate(screenNavigate(previousScreen));
+  };
+  const optionAlertHandler = () => {
+    Alert.alert(
+      //title
+      'Cảnh báo!',
+      //body
+      'Tên công việc không được để trống!',
+      [
+        {
+          text: 'OK',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
   };
   const twoOptionAlertHandler = () => {
     Alert.alert(
@@ -113,7 +130,32 @@ export default DetailsScreen = ({navigation, route}) => {
       />
       <Text style={styles.text}>Trạng thái công việc:</Text>
       <RNPickerSelect
-        style={pickerSelectStyles}
+        useNativeAndroidPickerStyle={false}
+        style={
+          Platform.OS === 'android'
+            ? {
+                inputAndroid: {
+                  color: 'black',
+                  fontSize: 20,
+                  paddingVertical: 10,
+                  paddingHorizontal: 10,
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingRight: 30,
+                },
+              }
+            : {
+                inputIOS: {
+                  color: 'black',
+                  fontSize: 20,
+                  paddingVertical: 10,
+                  paddingHorizontal: 10,
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingRight: 30,
+                },
+              }
+        }
         placeholder={{}}
         value={status}
         items={[
@@ -154,15 +196,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     backgroundColor: '#EDF005',
     alignItems: 'center',
-  },
-});
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });

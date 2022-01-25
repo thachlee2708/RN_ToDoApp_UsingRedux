@@ -8,21 +8,18 @@ import {
   TouchableOpacity,
   AsyncStorage,
   FlatList,
+  Alert,
   TextInput,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DatePicker from 'react-native-date-picker';
+import RNPickerSelect from 'react-native-picker-select';
 export default InputScreen = ({navigation, route}) => {
   const {previousScreen} = route.params;
   const screenNavigate = previousScreen => {
     if (previousScreen === 'Doing') return 'Doing Screen';
     if (previousScreen === 'Completed') return 'Completed Screen';
     return 'Home Screen';
-  };
-  const pickStatus = previousScreen => {
-    if (previousScreen === 'Doing') return 'Doing';
-    if (previousScreen === 'Completed') return 'Completed';
-    return 'Doing';
   };
   const generateNextKey = async () => {
     try {
@@ -31,29 +28,50 @@ export default InputScreen = ({navigation, route}) => {
       for (x in keys) {
         sumKey = sumKey + parseInt(keys[x]);
       }
+      if (obj.name === '') return optionAlertHandler();
       AsyncStorage.setItem(sumKey + '', JSON.stringify(obj));
       navigation.navigate(screenNavigate(previousScreen));
     } catch (error) {
       console.error(error);
     }
   };
+  const optionAlertHandler = () => {
+    Alert.alert(
+      //title
+      'Cảnh báo!',
+      //body
+      'Bạn hãy nhập công việc!',
+      [
+        {
+          text: 'OK',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  };
   const [name, setName] = useState('');
   const [detail, setDetail] = useState('');
   const [time, setTime] = useState('');
+  const [status, setStatus] = useState('Doing');
   const timePicked = new Date();
   const [open, setOpen] = useState(false);
   const obj = {
     name: name,
     detail: detail,
     time: time,
-    status: pickStatus(previousScreen),
+    status: status,
   };
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}>Tên công việc:</Text>
       <TextInput style={styles.textInput} onChangeText={setName}></TextInput>
       <Text style={styles.text}>Nội dung công việc:</Text>
-      <TextInput style={styles.textInput} onChangeText={setDetail}></TextInput>
+      <TextInput
+        style={styles.textInput}
+        onChangeText={setDetail}
+        multiline={true}
+        numberOfLines={5}></TextInput>
       <Text style={styles.text}>Thời gian bắt đầu:</Text>
       <Text onPress={() => setOpen(true)} style={styles.textInput}>
         {time}
@@ -74,6 +92,42 @@ export default InputScreen = ({navigation, route}) => {
         onCancel={() => {
           setOpen(false);
         }}
+      />
+      <Text style={styles.text}>Trạng thái công việc:</Text>
+      <RNPickerSelect
+        useNativeAndroidPickerStyle={false}
+        style={
+          Platform.OS === 'android'
+            ? {
+                inputAndroid: {
+                  color: 'black',
+                  fontSize: 20,
+                  paddingVertical: 10,
+                  paddingHorizontal: 10,
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingRight: 30,
+                },
+              }
+            : {
+                inputIOS: {
+                  color: 'black',
+                  fontSize: 20,
+                  paddingVertical: 10,
+                  paddingHorizontal: 10,
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingRight: 30,
+                },
+              }
+        }
+        placeholder={{}}
+        value={status}
+        items={[
+          {label: 'Doing', value: 'Doing'},
+          {label: 'Completed', value: 'Completed'},
+        ]}
+        onValueChange={setStatus}
       />
       <TouchableOpacity
         style={styles.wrapButton}
