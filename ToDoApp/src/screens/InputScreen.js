@@ -28,19 +28,21 @@ export default InputScreen = ({navigation, route}) => {
       for (x in keys) {
         sumKey = sumKey + parseInt(keys[x]);
       }
-      if (obj.name === '') return optionAlertHandler();
+      if (obj.name === '') return optionAlertHandler('Bạn hãy nhập công việc');
+      if (obj.status === '')
+        return optionAlertHandler('Bạn hãy nhập trạng thái công việc');
       AsyncStorage.setItem(sumKey + '', JSON.stringify(obj));
       navigation.navigate(screenNavigate(previousScreen));
     } catch (error) {
       console.error(error);
     }
   };
-  const optionAlertHandler = () => {
+  const optionAlertHandler = text => {
     Alert.alert(
       //title
       'Cảnh báo!',
       //body
-      'Bạn hãy nhập công việc!',
+      text,
       [
         {
           text: 'OK',
@@ -53,7 +55,7 @@ export default InputScreen = ({navigation, route}) => {
   const [name, setName] = useState('');
   const [detail, setDetail] = useState('');
   const [time, setTime] = useState('');
-  const [status, setStatus] = useState('Doing');
+  const [status, setStatus] = useState('');
   const timePicked = new Date();
   const [open, setOpen] = useState(false);
   const obj = {
@@ -121,7 +123,7 @@ export default InputScreen = ({navigation, route}) => {
                 },
               }
         }
-        placeholder={{}}
+        label="Select status..."
         value={status}
         items={[
           {label: 'Doing', value: 'Doing'},
