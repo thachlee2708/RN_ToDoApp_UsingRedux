@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {styles, inputAndroid, inputIOS} from './_style';
 import {
   StyleSheet,
   Text,
@@ -43,29 +44,14 @@ const Item = ({
             style={
               Platform.OS === 'android'
                 ? {
-                    inputAndroid: {
-                      color: 'black',
-                      alignItems: 'center',
-                      paddingHorizontal: 10,
-                      paddingVertical: 0,
-                      fontSize: 12,
-                      borderWidth: 1,
-                      borderRadius: 5,
-                    },
+                    inputAndroid,
                   }
                 : {
-                    inputIOS: {
-                      color: 'black',
-                      justifyContent: 'center',
-                      fontSize: 12,
-                      padding: 5,
-                      borderWidth: 1,
-                      borderRadius: 5,
-                    },
+                    inputIOS,
                   }
             }
             placeholder={{}}
-            value={statusTemp}
+            value={Platform.OS === 'ios' ? statusTemp : status}
             items={[
               {label: 'Doing', value: 'Doing'},
               {label: 'Completed', value: 'Completed'},
@@ -83,7 +69,7 @@ const Item = ({
     </TouchableOpacity>
   );
 };
-export default CompletedScreen = ({navigation}) => {
+export default DoingScreen = ({navigation}) => {
   const [data, setData] = useState([]);
   const getData = async () => {
     let data1 = [];
@@ -93,8 +79,7 @@ export default CompletedScreen = ({navigation}) => {
         objItem = await AsyncStorage.getItem(keys[x]);
         objItemConverted = JSON.parse(objItem);
         objItemConverted.key = keys[x];
-        if (objItemConverted.status === 'Completed')
-          data1.push(objItemConverted);
+        if (objItemConverted.status === 'Doing') data1.push(objItemConverted);
       }
       setData(data1);
     } catch (error) {
@@ -170,17 +155,3 @@ export default CompletedScreen = ({navigation}) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {},
-  list: {},
-  item: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  titleText: {fontSize: 18},
-});
