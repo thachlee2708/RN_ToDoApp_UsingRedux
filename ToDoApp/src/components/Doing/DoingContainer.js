@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {styles} from './_style';
 import Item from '../Item/Item';
-import {Alert, AsyncStorage, FlatList} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Alert, AsyncStorage} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DoingScreen from './DoingScreen';

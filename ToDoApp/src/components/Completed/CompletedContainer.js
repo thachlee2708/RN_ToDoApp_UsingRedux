@@ -28,7 +28,10 @@ export default CompletedContainer = ({navigation}) => {
     getData();
   }, [isFocused]);
   const navigateDetailScreen = id => {
-    navigation.navigate('Details Screen', {key: id, previousScreen: 'Doing'});
+    navigation.navigate('Details Screen', {
+      key: id,
+      previousScreen: 'Completed',
+    });
   };
   const renderItem = ({item}) => {
     const removeItem = async key => {
