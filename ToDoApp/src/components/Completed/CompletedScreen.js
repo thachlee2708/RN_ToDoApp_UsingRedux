@@ -4,13 +4,14 @@ import {FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
-export default CompletedScreen = ({data, renderItem}) => {
+
+export default CompletedScreen = ({list, renderItem}) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.list}
-        data={data}
-        extraData={data}
+        data={list.filter(e => e.status === 'Completed')}
+        extraData={list}
         renderItem={renderItem}
       />
     </SafeAreaView>

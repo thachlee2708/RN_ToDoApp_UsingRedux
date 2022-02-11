@@ -1,45 +1,47 @@
-import React, {useState, useEffect} from 'react';
-import {AsyncStorage, Alert} from 'react-native';
+import React, {useState} from 'react';
+import {Alert} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import DetailsScreen from './DetailsScreen';
-export default DetailsContainer = ({navigation, route, props}) => {
-  const [name, setName] = useState('');
-  const [detail, setDetail] = useState('');
-  const [time, setTime] = useState('');
+import {updateDataList} from '../../store/actions';
+export default DetailsContainer = ({
+  navigation,
+  route,
+  props,
+  list,
+  changeDataList,
+  updateDataList,
+}) => {
+  const {item} = route.params;
+  const [name, setName] = useState(item.name);
+  const [detail, setDetail] = useState(item.detail);
+  const [time, setTime] = useState(item.time);
   const timePicked = new Date();
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState('');
-  const {key} = route.params;
+  const [status, setStatus] = useState(item.status);
+
   const {previousScreen} = route.params;
   const screenNavigate = previousScreen => {
     if (previousScreen === 'Doing') return 'Doing Screen';
     if (previousScreen === 'Completed') return 'Completed Screen';
     if (previousScreen === 'Home') return 'Home Screen';
   };
-  const getData = async () => {
-    try {
-      const objItem = await AsyncStorage.getItem(key);
-      setName(JSON.parse(objItem).name);
-      setDetail(JSON.parse(objItem).detail);
-      setTime(JSON.parse(objItem).time);
-      setStatus(JSON.parse(objItem).status);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    getData();
-  }, [isFocused]);
   const obj = {
     name: name,
     detail: detail,
     time: time,
     status: status,
+    key: item.key,
   };
   const saveData = () => {
-    if (obj.name === '') return optionAlertHandler();
-    AsyncStorage.setItem(key, JSON.stringify(obj));
+    let arrTemp = list;
+    for (var index in arrTemp) {
+      if (arrTemp[index].key === item.key) {
+        arrTemp[index] = obj;
+      }
+    }
+    changeDataList(arrTemp);
+    console.log(arrTemp);
+    console.log(list);
     navigation.navigate(screenNavigate(previousScreen));
   };
   const optionAlertHandler = () => {
@@ -64,7 +66,7 @@ export default DetailsContainer = ({navigation, route, props}) => {
       //body
       'Bạn có muốn xoá ?',
       [
-        {text: 'Yes', onPress: () => removeItem()},
+        {text: 'Yes', onPress: () => removeItem(item.key)},
         {
           text: 'No',
           style: 'cancel',
@@ -73,9 +75,11 @@ export default DetailsContainer = ({navigation, route, props}) => {
       {cancelable: true},
     );
   };
-  const removeItem = async () => {
+  const removeItem = key => {
     try {
-      await AsyncStorage.removeItem(key);
+      let arrTemp = list;
+      arrTemp = arrTemp.filter(e => e.key != key);
+      changeDataList(arrTemp);
       navigation.navigate(screenNavigate(previousScreen));
       return true;
     } catch (exception) {

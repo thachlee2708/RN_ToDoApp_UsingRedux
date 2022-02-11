@@ -1,11 +1,11 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from './components/Home/HomeContainer';
-import InputScreen from './components/Input/InputContainer';
-import DetailsScreen from './components/Details/DetailsContainer';
-import DoingScreen from './components/Doing/DoingContainer';
-import CompletedScreen from './components/Completed/CompletedContainer';
+import HomeScreen from './components/Home';
+import InputScreen from './components/Input';
+import DetailsScreen from './components/Details';
+import DoingScreen from './components/Doing';
+import CompletedScreen from './components/Completed';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();

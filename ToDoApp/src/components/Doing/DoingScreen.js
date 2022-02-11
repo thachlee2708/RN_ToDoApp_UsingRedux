@@ -5,13 +5,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
 
-export default DoingScreen = ({data, renderItem}) => {
+export default DoingScreen = ({list, renderItem}) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.list}
-        data={data}
-        extraData={data}
+        data={list.filter(e => e.status === 'Doing')}
+        extraData={list}
         renderItem={renderItem}
       />
     </SafeAreaView>

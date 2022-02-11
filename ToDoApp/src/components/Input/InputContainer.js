@@ -1,24 +1,27 @@
 import React, {useState} from 'react';
 import {AsyncStorage, Alert} from 'react-native';
 import InputScreen from './InputScreen';
-export default InputContainer = ({navigation, route, props}) => {
+export default InputContainer = ({
+  navigation,
+  route,
+  props,
+  list,
+  changeDataList,
+}) => {
   const {previousScreen} = route.params;
   const screenNavigate = previousScreen => {
     if (previousScreen === 'Doing') return 'Doing Screen';
     if (previousScreen === 'Completed') return 'Completed Screen';
     return 'Home Screen';
   };
-  const generateNextKey = async () => {
+  const generateNextKey = () => {
     try {
-      const keys = await AsyncStorage.getAllKeys();
-      var sumKey = 1;
-      for (x in keys) {
-        sumKey = sumKey + parseInt(keys[x]);
-      }
+      var arrList = list;
       if (obj.name === '') return optionAlertHandler('Bạn hãy nhập công việc');
       if (obj.status === '')
         return optionAlertHandler('Bạn hãy nhập trạng thái công việc');
-      AsyncStorage.setItem(sumKey + '', JSON.stringify(obj));
+      arrList = arrList.push(obj);
+      console.log(list);
       navigation.navigate(screenNavigate(previousScreen));
     } catch (error) {
       console.error(error);
@@ -50,6 +53,7 @@ export default InputContainer = ({navigation, route, props}) => {
     detail: detail,
     time: time,
     status: status,
+    key: list.length,
   };
   const inputProps = {
     setName,
