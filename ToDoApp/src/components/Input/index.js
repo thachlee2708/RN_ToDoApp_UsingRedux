@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {changeDataList} from '../../store/actions';
+import {changeDataList, updateDataList} from '../../store/actions';
 
 import InputContainer from './InputContainer';
 
@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   changeDataList: payload => dispatch(changeDataList(payload)),
+  updateDataList: payload => dispatch(updateDataList(payload)),
 });
 const Input = props => {
   return <InputContainer {...props} />;

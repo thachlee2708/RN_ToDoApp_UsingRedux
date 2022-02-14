@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
 import DetailsScreen from './DetailsScreen';
-import {updateDataList} from '../../store/actions';
 export default DetailsContainer = ({
   navigation,
   route,
@@ -39,8 +37,7 @@ export default DetailsContainer = ({
         arrTemp[index] = obj;
       }
     }
-    changeDataList(arrTemp);
-    console.log(arrTemp);
+    updateDataList(arrTemp);
     console.log(list);
     navigation.navigate(screenNavigate(previousScreen));
   };

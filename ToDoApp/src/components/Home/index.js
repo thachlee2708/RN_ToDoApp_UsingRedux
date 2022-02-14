@@ -7,8 +7,8 @@ const mapStateToProps = state => ({
   list: state.list.list,
 });
 const mapDispatchToProps = dispatch => ({
-  changeDataList: payload => dispatch(changeDataList(payload)),
   updateDataList: payload => dispatch(updateDataList(payload)),
+  changeDataList: payload => dispatch(changeDataList(payload)),
 });
 const Home = props => {
   return <HomeContainer {...props} />;

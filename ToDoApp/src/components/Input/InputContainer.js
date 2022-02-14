@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {AsyncStorage, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import InputScreen from './InputScreen';
 export default InputContainer = ({
   navigation,
   route,
   props,
   list,
-  changeDataList,
+  updateDataList,
 }) => {
   const {previousScreen} = route.params;
   const screenNavigate = previousScreen => {
@@ -16,11 +16,12 @@ export default InputContainer = ({
   };
   const generateNextKey = () => {
     try {
-      var arrList = list;
+      let arrList = list;
       if (obj.name === '') return optionAlertHandler('Bạn hãy nhập công việc');
       if (obj.status === '')
         return optionAlertHandler('Bạn hãy nhập trạng thái công việc');
       arrList = arrList.push(obj);
+      updateDataList(arrList);
       console.log(list);
       navigation.navigate(screenNavigate(previousScreen));
     } catch (error) {
