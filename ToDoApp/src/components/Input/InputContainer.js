@@ -14,6 +14,10 @@ export default InputContainer = ({
     if (previousScreen === 'Completed') return 'Completed Screen';
     return 'Home Screen';
   };
+  var keys = list.map(function (i) {
+    return i.key;
+  });
+  const maxKey = Math.max(...keys);
   const generateNextKey = () => {
     try {
       let arrList = list;
@@ -54,7 +58,7 @@ export default InputContainer = ({
     detail: detail,
     time: time,
     status: status,
-    key: list.length,
+    key: maxKey + 1,
   };
   const inputProps = {
     setName,
